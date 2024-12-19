@@ -28,8 +28,8 @@
       <el-form-item label="验证码" prop="verificationCode">
         <el-input v-model="verificationCode" placeholder="请输入验证码" type="text"></el-input>
       </el-form-item>
-      <el-form-item align="center">
-        <el-button class="button2" size="mini" type="primary" @click="next">下一步</el-button>
+      <el-form-item>
+        <el-button class="button2" type="primary" @click="next">下一步</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -39,7 +39,7 @@
 import { ref } from 'vue'
 import router from '@/router'
 import instance from '@/utils/axios'
-import { ElMessage } from 'element-plus'
+import { ElMessage,ElFormItem,ElButton } from 'element-plus'
 // 定义响应式数据
 const username = ref('')
 const phonenumber = ref('')
@@ -102,18 +102,15 @@ const next = async () => {
   }
   try {
     //检测用户名和手机号是否已存在
-    const response = await instance.post(
-      '/user/auth/find',
-      {
+    const response = await instance.get('/user/auth/find', {
+      params: {
         userName: username.value,
         phoneNumber: phonenumber.value
       },
-      {
-        headers: {
-          'Content-Type': 'application/json'
-        }
+      headers: {
+        'Content-Type': 'application/json'
       }
-    )
+    })
     if (response.data.code != 0) {
       ElMessage('用户名或手机号已存在')
       username.value = ''

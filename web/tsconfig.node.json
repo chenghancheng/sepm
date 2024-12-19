@@ -1,7 +1,10 @@
 {
   "extends": "@tsconfig/node20/tsconfig.json",
   "include": [
-    "vite.config.*"
+    "vite.config.*",
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.vue",
   ],
   "compilerOptions": {
     "composite": true,
@@ -11,6 +14,15 @@
     "moduleResolution": "Bundler",
     "types": [
       "node"
-    ]
+    ],
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
   }
 }

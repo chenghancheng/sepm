@@ -25,8 +25,8 @@
       <el-form-item label="验证码" prop="verificationCode">
         <el-input v-model="verificationCode" placeholder="请输入验证码" type="text"></el-input>
       </el-form-item>
-      <el-form-item align="center">
-        <el-button class="button2" size="mini" type="primary" @click="next">下一步</el-button>
+      <el-form-item>
+        <el-button class="button2" type="primary" @click="next">下一步</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -52,18 +52,15 @@ const sendVerificationCode = async () => {
     return
   }
   try {
-    const response = await instance.post(
-      'user/auth/find',
-      {
+    const response = await instance.get('user/auth/find', {
+      params: {
         userName: 'test',
         phoneNumber: phonenumber.value
       },
-      {
-        headers: {
-          'Content-Type': 'application/json'
-        }
+      headers: {
+        'Content-Type': 'application/json'
       }
-    )
+    })
     if (response.data.code == 0) {
       ElMessage('该手机号还未注册')
       phonenumber.value = ''

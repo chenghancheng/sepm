@@ -5,7 +5,6 @@ import com.hirrao.javaee.service.HeartRateService
 import com.hirrao.javaee.utils.Result.error
 import com.hirrao.javaee.utils.Result.success
 import com.hirrao.javaee.utils.SnowFlake
-import com.hirrao.javaee.utils.StringUtil.isEmpty
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
@@ -30,10 +29,10 @@ class HeartRateController(private val heartRateService: HeartRateService) {
         val userId = map["userId"]
         val heartRate = map["heartRate"]
         val date = map["date"]
-        if (isEmpty(userId) || isEmpty(heartRate) || isEmpty(date)) {
+        if (userId.isNullOrBlank() || heartRate.isNullOrBlank() || date.isNullOrBlank()) {
             return error(101, "错误输入")
         }
-        heartRateService.insertHeartRate(snowFlake.nextId(), userId!!.toLong(), heartRate!!.toFloat(), date)
+        heartRateService.insertHeartRate(snowFlake.nextId(), userId.toLong(), heartRate.toFloat(), date)
         return success()
     }
 }

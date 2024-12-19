@@ -7,7 +7,6 @@ import com.hirrao.javaee.utils.BloodPressureUtil.generateRiskLevel
 import com.hirrao.javaee.utils.Result.error
 import com.hirrao.javaee.utils.Result.success
 import com.hirrao.javaee.utils.SnowFlake
-import com.hirrao.javaee.utils.StringUtil.isEmpty
 import com.hirrao.javaee.utils.ThreadLocalUtil.get
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -58,26 +57,20 @@ class BloodPressureController(private val bloodPressureService: BloodPressureSer
         val recordTime = map["date"]
         val sbp = map["sbp"]
         val dbp = map["dbp"]
-        if (isEmpty(recordTime) || isEmpty(sbp) || isEmpty(dbp)) {
+        if (recordTime.isNullOrBlank() || sbp.isNullOrBlank() || dbp.isNullOrBlank()) {
             return error(101, "参数错误")
         }
 
         //将string处理为数值进行处理
-        val sbpValue = sbp!!.toFloat()
-        val dbpValue = dbp!!.toFloat()
+        val sbpValue = sbp.toFloat()
+        val dbpValue = dbp.toFloat()
 
         // 生成 classification 和 riskLevel
         val classification = generateClassification(sbpValue, dbpValue)
         val riskLevel = generateRiskLevel(sbpValue, dbpValue)
 
         bloodPressureService.insertBloodPressure(
-            snowFlake.nextId(),
-            userId,
-            sbpValue,
-            dbpValue,
-            recordTime,
-            classification,
-            riskLevel
+            snowFlake.nextId(), userId, sbpValue, dbpValue, recordTime, classification, riskLevel
         )
         return success()
     }
