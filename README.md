@@ -1,6 +1,6 @@
-# JavaEE
+# sepm
 
-JavaEE课程相关代码, fork至github并合并为一个仓库, 可能继续进行开发
+sepm课程相关代码, fork至github并合并为一个仓库, 可能继续进行开发
 后端使用SpringBoot3, 前端使用Vue3
 
 ## TODO
